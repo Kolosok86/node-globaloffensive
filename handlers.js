@@ -52,6 +52,14 @@ handlers[Language.ClientWelcome] = function(body) {
 	}
 
 	this.inventory = this.inventory || [];
+	
+	const [ first_data ] = proto.outofdate_subscribed_caches;
+	const [ second_data ] = proto.uptodate_subscribed_caches;
+	
+	let { owner_soid, version } = first_data || second_data || {};
+	
+	this.soid = owner_soid || {};
+	this.version = version || "";
 
 	this.emit('debug', "GC connection established");
 	this.haveGCSession = true;

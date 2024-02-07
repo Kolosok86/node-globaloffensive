@@ -8,6 +8,7 @@ const Language = require('./language.js');
 const Protos = require('./protobufs/generated/_load.js');
 
 const STEAM_APPID = 730;
+const APP_VERSION = 2000244
 
 module.exports = GlobalOffensive;
 
@@ -118,7 +119,7 @@ GlobalOffensive.prototype._connect = function() {
 		}
 
 		this._send(Language.ClientHello, Protos.CMsgClientHello, {
-			version: 2000244,
+			version: APP_VERSION,
 			client_session_need: 0,
 			client_launcher: 0,
 			steam_launcher: 0
@@ -131,6 +132,32 @@ GlobalOffensive.prototype._connect = function() {
 
 	this._helloTimer = setTimeout(sendHello, 500);
 };
+
+GlobalOffensive.prototype.refreshSession = function(){
+	if (!this._isInCSGO) {
+		this.emit('debug', "Not sending hello because we're no longer in CS:GO")
+		return
+	}
+	
+	const version = this.version
+	const soid = this.soid
+	
+	const socache_have_versions = []
+	
+	if(soid && version){
+		socache_have_versions.push({ soid, version })
+	}
+	
+	this.haveGCSession = false;
+	
+	this._send(Language.ClientHello, Protos.CMsgClientHello, {
+		version: APP_VERSION,
+		socache_have_versions,
+		client_session_need: 1,
+		client_launcher: 0,
+		steam_launcher: 0,
+	});
+}
 
 GlobalOffensive.prototype._send = function(type, protobuf, body) {
 	if (!this._steam.steamID) {
