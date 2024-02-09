@@ -1,6 +1,6 @@
 {
 	"name": "globaloffensive",
-	"version": "3.0.1",
+	"version": "3.1.0",
 	"description": "Exposes a simple API for interacting with the Counter-Strike: Global Offensive/CS2 game coordinator",
 	"keywords": [
 		"csgo",
@@ -34,6 +34,7 @@
 		"steam-user": ">=4.2.0"
 	},
 	"devDependencies": {
+		"protobufjs-cli": "^1.1.2",
 		"steam-user": "^4.26.1"
 	},
 	"scripts": {
