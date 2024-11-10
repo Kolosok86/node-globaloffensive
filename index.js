@@ -8,7 +8,7 @@ const Language = require('./language.js');
 const Protos = require('./protobufs/generated/_load.js');
 
 const STEAM_APPID = 730;
-const APP_VERSION = 2000244
+const APP_VERSION = 2000434
 
 module.exports = GlobalOffensive;
 
@@ -149,7 +149,7 @@ GlobalOffensive.prototype.refreshSession = function(){
 	}
 	
 	this.haveGCSession = false;
-	
+
 	this._send(Language.ClientHello, Protos.CMsgClientHello, {
 		version: APP_VERSION,
 		socache_have_versions,
